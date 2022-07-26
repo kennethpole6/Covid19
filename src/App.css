@@ -1,0 +1,22 @@
+.search-cards {
+    width: 30em;
+    margin: 4em auto;
+}
+
+.search-results {
+    padding: 1em;
+    display: grid;
+    place-items: center;
+}
+
+.footer {
+    padding: 2em;
+    text-align: center;
+}
+
+@media screen and (max-width: 550px) {
+    .search-cards {
+        width: 90%;
+    }
+
+}
