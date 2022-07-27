@@ -37,9 +37,8 @@ export default function App() {
 
   return (
     <div>
-      <Card title="Covid-19 Tracker" className="search-cards">
-        <Text type="secondary">Note: The data refreshes every 24 hours</Text>
-        <br/>
+      <Card title="Covid-19 Tracker (Global)" className="search-cards">
+        <p>Note: Data will refresh automatically every 24 hours.</p>
         <Search 
           placeholder="Search any countries..."
           allowClear
