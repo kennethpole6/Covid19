@@ -1,76 +1,72 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Card, Input, Divider, Row, Col, Typography } from "antd";
-import './App.css'
-import Cards from './components/Card/Card'
-
-const { Text } = Typography;
+import { Input, Divider, Row, Col } from "antd";
+import "./App.css";
+import Cards from "./components/Card/Card";
+import { Context } from "./components/Context";
+import SearchInput from "./components/SearchInput/SearchInput";
+import Footer from "./components/Footer/Footer";
 
 export default function App() {
   const { Search } = Input;
-  const [covidResults, setCovidResults] = useState([])
-  const [country, setCountry] = useState("Philippines")
-  const inputRef = useRef(null)
+  const [covidResults, setCovidResults] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [country, setCountry] = useState("Philippines");
+  const inputRef = useRef(null);
   useEffect(() => {
     const options = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'X-RapidAPI-Key': 'b3af1c2478msh77279a75dc3acbep13f2d7jsna957a919a1f1',
-        'X-RapidAPI-Host': 'covid-193.p.rapidapi.com'
-      }
+        "X-RapidAPI-Key": "b3af1c2478msh77279a75dc3acbep13f2d7jsna957a919a1f1",
+        "X-RapidAPI-Host": "covid-193.p.rapidapi.com",
+      },
     };
-    
+
     const getData = async () => {
-      const fetchData = await fetch(`https://covid-193.p.rapidapi.com/statistics?country=${country}`, options)
-      const data = await fetchData.json()
-      setCovidResults(data.response)
-    }
-    getData()
+      const fetchData = await fetch(
+        `https://covid-193.p.rapidapi.com/statistics?country=${country}`,
+        options
+      );
+      const data = await fetchData.json();
+      setCovidResults(data.response);
+      setLoading(false);
+    };
+    getData();
 
     return () => {
-      console.log("Fetching data...")
-    }
-  },[country])
+      console.log("Fetching data...");
+      setLoading(true);
+    };
+  }, [country]);
 
   const handleItems = (e) => {
-    setCountry(e.target.value)
-  }
+    setCountry(e.target.value);
+  };
 
   return (
-    <div>
-      <Card title="Covid-19 Tracker (Global)" className="search-cards">
-        <p>Note: Data will refresh automatically every 24 hours.</p>
-        <Search 
-          placeholder="Search any countries..."
-          allowClear
-          enterButton="Search"
-          size="large"
-          ref={inputRef}
-          value={country}
-          onChange={handleItems}
-        />
-      </Card>
-      <Divider dashed="true">Results</Divider>
+    <Context.Provider
+      value={{ covidResults, Search, inputRef, handleItems, country, loading }}
+    >
+      <SearchInput />
+      <Divider>Results</Divider>
       <div className="search-results">
         <Row>
-            {covidResults.map(items => {
-              const {continent,country, day, deaths, cases} = items
-              return (
-                <Col>
-                    <Cards
-                      continent={continent}
-                      country={country}
-                      today={day}
-                      cases={cases}
-                      deaths={deaths}
-                    />
-                  </Col>                  
-              )
-            })}
+          {covidResults?.map((items) => {
+            const { continent, country, day, deaths, cases } = items;
+            return (
+              <Col>
+                <Cards
+                  continent={continent}
+                  country={country}
+                  today={day}
+                  cases={cases}
+                  deaths={deaths}
+                />
+              </Col>
+            );
+          })}
         </Row>
       </div>
-      <div className="footer">
-        <Text type="secondary">Covid 19 Tracker ©2022 Created by Kenneth Pole</Text>
-      </div>
-    </div>
+      <Footer />
+    </Context.Provider>
   );
 }
