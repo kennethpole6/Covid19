@@ -26,7 +26,7 @@ const Cards = ({ continent, country, today, deaths, cases }) => {
           <p style={{ color: "#8c8c8c", fontSize: ".8em" }}>Date: {today}</p>
         </Card>
       ) : (
-        <Card loading />
+        loading
       )}
     </div>
   );

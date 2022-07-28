@@ -6,12 +6,13 @@ import { Context } from "./components/Context";
 import SearchInput from "./components/SearchInput/SearchInput";
 import Footer from "./components/Footer/Footer";
 
-export default function App() {
+const App = () => {
   const { Search } = Input;
   const [covidResults, setCovidResults] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [country, setCountry] = useState("Philippines");
   const inputRef = useRef(null);
+
   useEffect(() => {
     const options = {
       method: "GET",
@@ -69,4 +70,5 @@ export default function App() {
       <Footer />
     </Context.Provider>
   );
-}
+};
+export default App;
