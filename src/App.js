@@ -51,20 +51,21 @@ const App = () => {
       <Divider>Results</Divider>
       <div className="search-results">
         <Row>
-          {covidResults?.map((items) => {
-            const { continent, country, day, deaths, cases } = items;
-            return (
-              <Col>
-                <Cards
-                  continent={continent}
-                  country={country}
-                  today={day}
-                  cases={cases}
-                  deaths={deaths}
-                />
-              </Col>
-            );
-          })}
+          {covidResults &&
+            covidResults?.map((items) => {
+              const { continent, country, day, deaths, cases } = items;
+              return (
+                <Col>
+                  <Cards
+                    continent={continent}
+                    country={country}
+                    today={day}
+                    cases={cases}
+                    deaths={deaths}
+                  />
+                </Col>
+              );
+            })}
         </Row>
       </div>
       <Footer />
